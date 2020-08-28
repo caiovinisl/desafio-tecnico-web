@@ -26,6 +26,10 @@ interface ITrailerInterface {
   key: string;
 }
 
+interface Params {
+  id: number;
+}
+
 const Movie: React.FC = (props) => {
   // const location = useLocation();
   // const { state } = location;
@@ -34,7 +38,7 @@ const Movie: React.FC = (props) => {
 
   // const [id, setId] = useState(props.match.params.id);
 
-  const { id } = useParams<{ id: number }>();
+  const { id } = useParams<Params>();
 
   useEffect(() => {
     api
