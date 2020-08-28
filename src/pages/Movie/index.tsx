@@ -3,20 +3,36 @@ import Navbar from "../../components/Navbar/navbar";
 import { MainContainer } from "./styles";
 import MovieCardExpanded from "../../components/MovieCardExpanded/movieCardExpanded";
 import api from "../../services/api";
+import { useLocation } from "react-router-dom";
+import formatMinutesToHours from "../../utils/formatMinutesToHours";
+import { formatPrice } from "../../utils/formatValue";
+import formatRate from "../../utils/formatRate";
 
-interface MovieInterface {
+interface IMovieInterface {
   title: string;
   overview: string;
   release_date: string;
   status: string;
-  budget: string;
-  revenue: string;
+  budget: number;
+  revenue: number;
   popularity: number;
   poster_path: string;
+  runtime: number;
+  // spoken_languages: [];
 }
 
-const Movie: React.FC = () => {
-  const [movie, setMovie] = useState<MovieInterface>();
+interface ITrailerInterface {
+  id: number;
+  key: string;
+}
+
+const Movie: React.FC = (props) => {
+  // const location = useLocation();
+  // const { state } = location;
+  const [movie, setMovie] = useState<IMovieInterface>();
+  const [trailers, setTrailers] = useState<ITrailerInterface[]>([]);
+
+  // const [id, setId] = useState(props.match.params.id);
   const [id, setId] = useState(500);
 
   useEffect(() => {
@@ -32,7 +48,21 @@ const Movie: React.FC = () => {
         setMovie(response.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+
+    api
+      .get(`movie/${id}/videos`, {
+        params: {
+          api_key: "cb3cf1f094b688b01c940f191ca482aa",
+          language: "pt-BR",
+        },
+      })
+      .then((response) => {
+        console.log(response.data.results);
+        setTrailers(response.data.results);
+      })
+      .catch((err) => console.log(err));
+  }, [movie]);
+
   return (
     <>
       <Navbar />
@@ -46,20 +76,27 @@ const Movie: React.FC = () => {
               description={movie.overview}
               date={movie.release_date}
               situation={movie.status}
-              language="string"
-              duration="string"
-              budget={movie.budget}
-              income={movie.revenue}
-              profit={movie.revenue - movie.budget}
-              rate={movie.popularity}
+              // language={movie.spoken_languages}
+              duration={formatMinutesToHours(movie.runtime)}
+              budget={formatPrice(movie.budget)}
+              income={formatPrice(movie.revenue)}
+              profit={formatPrice(movie.revenue - movie.budget)}
+              rate={formatRate(movie.popularity)}
               image={movie.poster_path}
             />
+          </>
+        )}
+        {trailers == undefined ? (
+          <h1>Este filme não possui trailers!</h1>
+        ) : (
+          trailers.map((trailer: ITrailerInterface) => (
             <iframe
+              key={trailer.id}
               width="100%"
               height="500"
-              src="https://www.youtube.com/embed/ue80QwXMRHg"
+              src={`https://www.youtube.com/embed/${trailer.key}`}
             ></iframe>
-          </>
+          ))
         )}
       </MainContainer>
     </>

@@ -8,14 +8,13 @@ export const MainContainer = styled.div`
   flex-direction: column;
   width: 90%;
   max-width: 800px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  margin-top: 200px;
 
   input {
     margin-bottom: 20px;
-    width: 100%;
+    /* width: 100%; */
+    width: 800px;
     max-width: 800px;
     background-color: ${colors.grey};
     border: none;
@@ -25,5 +24,12 @@ export const MainContainer = styled.div`
       color: ${colors.primary};
     }
     outline-width: 0;
+  }
+
+  @media (max-width: 900px) {
+    input {
+      width: 100%;
+      min-width: 300px;
+    }
   }
 `;

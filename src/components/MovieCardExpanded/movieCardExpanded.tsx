@@ -6,13 +6,17 @@ interface Props {
   description: string;
   date: string;
   situation: string;
-  language: string;
+  //   language: string[];
   duration: string;
   budget: string;
   income: string;
   profit: string;
-  rate: number;
+  rate: string;
   image: string;
+}
+
+interface ILanguageInterface {
+  name: string;
 }
 
 const MovieCardExpanded: React.FC<Props> = (props) => {
@@ -40,7 +44,10 @@ const MovieCardExpanded: React.FC<Props> = (props) => {
                 </div>
                 <div className="info">
                   <h4>Idioma</h4>
-                  <p>{props.language}</p>
+                  <p>Idioma</p>
+                  {/* {props.language.map((lg: ILanguageInterface) => (
+                    <p>{lg.name}</p>
+                  ))} */}
                 </div>
                 <div className="info">
                   <h4>Duração</h4>

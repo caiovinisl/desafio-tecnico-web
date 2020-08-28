@@ -2,11 +2,26 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar/navbar";
 import { MainContainer } from "./styles";
 import MovieCard from "../../components/MovieCard/movieCard";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import api from "../../services/api";
+import formatRate from "../../utils/formatRate";
+
+interface IMovieInterface {
+  id: number;
+  title: string;
+  overview: string;
+  release_date: string;
+  status: string;
+  budget: number;
+  revenue: number;
+  popularity: number;
+  poster_path: string;
+  runtime: number;
+  genres_ids: number[];
+}
 
 const Main: React.FC = () => {
-  const [movies, setMovies] = useState({ data: [] });
+  const [movies, setMovies] = useState<IMovieInterface[]>([]);
   const [search, setSearch] = useState("");
   const history = useHistory();
 
@@ -28,7 +43,6 @@ const Main: React.FC = () => {
       .then((response) => {
         console.log(response.data.results);
         setMovies(response.data.results);
-        console.log("OS MOVIE" + movies);
       })
       .catch((err) => console.log(err));
   }, [search]);
@@ -45,32 +59,22 @@ const Main: React.FC = () => {
             onChange={updateSearch}
           />
         </form>
-        {movies.data == undefined ? (
+        {movies == undefined || movies == null ? (
           <h1>Nenhum filme encontrado!</h1>
         ) : (
-          movies.data.map(
-            (movie: {
-              title: string;
-              overview: string;
-              release_date: string;
-              popularity: number;
-              poster_path: string;
-              id: number;
-            }) => (
-              <>
-                <MovieCard
-                  title={movie.title}
-                  description={movie.overview}
-                  date={movie.release_date}
-                  rate={movie.popularity}
-                  image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  // onClick={() => {
-                  //   history.push(`/${movie.id}`, { movie });
-                  // }}
-                />
-              </>
-            )
-          )
+          movies.map((movie: IMovieInterface) => (
+            <Link to={`/movie/${movie.id}`}>
+              <MovieCard
+                key={movie.id}
+                title={movie.title}
+                description={movie.overview}
+                date={movie.release_date}
+                rate={formatRate(movie.popularity)}
+                image={movie.poster_path}
+                genres={movie.genres_ids}
+              />
+            </Link>
+          ))
         )}
       </MainContainer>
     </>

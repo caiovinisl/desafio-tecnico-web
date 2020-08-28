@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Badge } from "./styles";
+import api from "../../services/api";
 
-interface Props {
+interface IProps {
+  key: number;
   title: string;
   description: string;
   date: string;
-  rate: number;
+  rate: string;
   image: string;
-  // onClick(): any;
+  genres: number[];
+  // onClick(): void;
 }
 
-const MovieCard: React.FC<Props> = (props) => {
+interface IGenreInterface {
+  id: number;
+  name: string;
+}
+
+const MovieCard: React.FC<IProps> = (props) => {
+  const [genres, setGenres] = useState<IGenreInterface[]>([]);
+
+  useEffect(() => {
+    api
+      .get("genre/movie/list", {
+        params: {
+          api_key: "cb3cf1f094b688b01c940f191ca482aa",
+          language: "pt-BR",
+        },
+      })
+      .then((response) => {
+        console.log(response.data.genres);
+        setGenres(response.data.genres);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Card>
       <div className="image">
@@ -30,9 +55,11 @@ const MovieCard: React.FC<Props> = (props) => {
           <p className="date">{props.date}</p>
           <p>{props.description}</p>
           <div className="badges">
-            <Badge>Ação</Badge>
-            <Badge>Aventura</Badge>
-            <Badge>Fantasia</Badge>
+            {props.genres == undefined ? (
+              <>Sem gênero especificado</>
+            ) : (
+              props.genres.map((genre) => <Badge>{genre}</Badge>)
+            )}
           </div>
         </div>
       </div>
