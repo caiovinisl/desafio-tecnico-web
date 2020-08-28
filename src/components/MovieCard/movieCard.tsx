@@ -1,30 +1,39 @@
 import React from "react";
-import { Card } from "./styles";
+import { Card, Badge } from "./styles";
 
-// import { Container } from './styles';
+interface Props {
+  title: string;
+  description: string;
+  date: string;
+  rate: number;
+  image: string;
+  // onClick(): any;
+}
 
-const MovieCard: React.FC = () => {
+const MovieCard: React.FC<Props> = (props) => {
   return (
     <Card>
       <div className="image">
         <img
-          src="https://upload.wikimedia.org/wikipedia/pt/thumb/7/7d/Thor_Ragnarok_poster.jpg/250px-Thor_Ragnarok_poster.jpg"
-          alt="Thor"
+          src={`https://image.tmdb.org/t/p/w500${props.image}`}
+          alt="Cartaz do filme"
         />
       </div>
       <div className="container">
         <div className="header">
-          <h1>Thor: Ragnarok</h1>
+          <div className="rating">
+            <h1>{props.rate}</h1>
+          </div>
+          <h1 className="title">{props.title}</h1>
         </div>
         <div className="content">
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged.
-          </p>
+          <p className="date">{props.date}</p>
+          <p>{props.description}</p>
+          <div className="badges">
+            <Badge>Ação</Badge>
+            <Badge>Aventura</Badge>
+            <Badge>Fantasia</Badge>
+          </div>
         </div>
       </div>
     </Card>

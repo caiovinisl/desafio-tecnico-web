@@ -10,6 +10,11 @@ export const Card = styled.div`
   background-color: ${colors.grey};
   overflow: hidden;
   position: relative;
+  margin-bottom: 20px;
+
+  p {
+    font-size: 12px;
+  }
 
   .header {
     background-color: ${colors.primary};
@@ -21,14 +26,35 @@ export const Card = styled.div`
     display: flex;
     align-items: center;
 
-    h1 {
+    .title {
+      margin-left: 10px;
+    }
+
+    .rating {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: ${colors.primary};
+      border-radius: 50%;
+      border: 4px solid ${colors.secondary};
+      transform: translateY(25px);
       margin-left: 20px;
+
+      h1 {
+        font-size: 20px;
+      }
     }
   }
 
   .content {
     padding: 20px;
     text-align: left;
+
+    .date {
+      margin-left: 70px;
+    }
   }
 
   .image {
@@ -37,4 +63,23 @@ export const Card = styled.div`
       object-fit: cover;
     }
   }
+
+  .badges {
+    display: flex;
+  }
+`;
+
+export const Badge = styled.div`
+  height: 14px;
+  padding: 5px;
+  border: 1px solid ${colors.primary};
+  border-radius: 20px;
+  color: ${colors.primary};
+  background-color: ${colors.white};
+  font-size: 12px;
+  font-family: "Abel", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 10px;
 `;
