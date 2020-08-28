@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar/navbar";
 import { MainContainer } from "./styles";
 import MovieCardExpanded from "../../components/MovieCardExpanded/movieCardExpanded";
 import api from "../../services/api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import formatMinutesToHours from "../../utils/formatMinutesToHours";
 import { formatPrice } from "../../utils/formatValue";
 import formatRate from "../../utils/formatRate";
@@ -33,7 +33,8 @@ const Movie: React.FC = (props) => {
   const [trailers, setTrailers] = useState<ITrailerInterface[]>([]);
 
   // const [id, setId] = useState(props.match.params.id);
-  const [id, setId] = useState(500);
+
+  const { id } = useParams<{ id: number }>();
 
   useEffect(() => {
     api

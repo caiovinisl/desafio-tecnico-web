@@ -26,6 +26,11 @@ export const MainContainer = styled.div`
     outline-width: 0;
   }
 
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
   @media (max-width: 900px) {
     input {
       width: 100%;

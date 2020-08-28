@@ -1,4 +1,4 @@
-# ReactMovie
+# Desafio Técnico Web
 
 Aplicação web feita com React e Typescript para consulta de filmes consumindo a [API do The Movie DB](https://www.themoviedb.org/documentation/api). Listagem de filmes através de busca e exibe detalhes do filme, nome, cartaz, data de lançamento, sinopse, pontuação e etc.
 
