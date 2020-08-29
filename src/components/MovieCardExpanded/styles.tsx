@@ -6,6 +6,7 @@ export const Card = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+
   height: 500px;
   background-color: ${colors.lightGrey};
 
@@ -22,6 +23,7 @@ export const Card = styled.div`
   .container {
     display: flex;
     flex-direction: column;
+    min-width: 800px;
   }
 
   .inner {
@@ -135,6 +137,7 @@ export const Card = styled.div`
       justify-content: center;
       align-items: center;
       width: 100%;
+      min-width: 300px;
     }
 
     .inner {

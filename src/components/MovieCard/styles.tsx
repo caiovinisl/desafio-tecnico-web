@@ -3,9 +3,10 @@ import { colors } from "../../utils/colors";
 
 export const Card = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
+  min-width: 800px;
   height: 300px;
   background-color: ${colors.grey};
   overflow: hidden;
@@ -75,6 +76,7 @@ export const Card = styled.div`
     align-items: center;
     flex-direction: column;
     width: 100%;
+    min-width: 300px;
     height: 800px;
     background-color: ${colors.grey};
     overflow: hidden;

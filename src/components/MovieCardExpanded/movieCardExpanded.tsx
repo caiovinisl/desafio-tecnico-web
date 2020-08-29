@@ -1,22 +1,28 @@
 import React from "react";
 import { Card, Badge } from "./styles";
 
+interface ILanguageInterface {
+  name: string;
+}
+
+interface IGenreInterface {
+  id: number;
+  name: string;
+}
+
 interface Props {
   title: string;
   description: string;
   date: string;
   situation: string;
-  //   language: string[];
+  language: ILanguageInterface[];
   duration: string;
   budget: string;
   income: string;
   profit: string;
   rate: string;
   image: string;
-}
-
-interface ILanguageInterface {
-  name: string;
+  genres: IGenreInterface[] | undefined;
 }
 
 const MovieCardExpanded: React.FC<Props> = (props) => {
@@ -44,10 +50,9 @@ const MovieCardExpanded: React.FC<Props> = (props) => {
                 </div>
                 <div className="info">
                   <h4>Idioma</h4>
-                  <p>Idioma</p>
-                  {/* {props.language.map((lg: ILanguageInterface) => (
+                  {props.language.map((lg: ILanguageInterface) => (
                     <p>{lg.name}</p>
-                  ))} */}
+                  ))}
                 </div>
                 <div className="info">
                   <h4>Duração</h4>
@@ -70,9 +75,11 @@ const MovieCardExpanded: React.FC<Props> = (props) => {
             <div className="session">
               <div className="footer">
                 <div className="badges">
-                  <Badge>Ação</Badge>
-                  <Badge>Aventura</Badge>
-                  <Badge>Fantasia</Badge>
+                  {props.genres == undefined || props.genres == null ? (
+                    <p>Sem gênero especificado</p>
+                  ) : (
+                    props.genres.map((genre) => <Badge>{genre.name}</Badge>)
+                  )}
                 </div>
                 <div className="rating">
                   <h1>{props.rate}</h1>

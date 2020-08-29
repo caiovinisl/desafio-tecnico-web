@@ -8,6 +8,15 @@ import formatMinutesToHours from "../../utils/formatMinutesToHours";
 import { formatPrice } from "../../utils/formatValue";
 import formatRate from "../../utils/formatRate";
 
+interface ITrailerInterface {
+  id: number;
+  key: string;
+}
+
+interface ILanguageInterface {
+  name: string;
+}
+
 interface IMovieInterface {
   title: string;
   overview: string;
@@ -18,27 +27,36 @@ interface IMovieInterface {
   popularity: number;
   poster_path: string;
   runtime: number;
-  // spoken_languages: [];
+  genres_ids: number[];
+  spoken_languages: ILanguageInterface[];
 }
 
-interface ITrailerInterface {
+interface IGenreInterface {
   id: number;
-  key: string;
-}
-
-interface Params {
-  id: number;
+  name: string;
 }
 
 const Movie: React.FC = (props) => {
-  // const location = useLocation();
-  // const { state } = location;
   const [movie, setMovie] = useState<IMovieInterface>();
   const [trailers, setTrailers] = useState<ITrailerInterface[]>([]);
+  const [genres, setGenres] = useState<IGenreInterface[]>([]);
+  const [genreTags, setGenreTags] = useState<IGenreInterface[]>([]);
+  const { id } = useParams<{ id: string }>();
 
-  // const [id, setId] = useState(props.match.params.id);
+  function getGenres(ids: number[]) {
+    if (ids != undefined) {
+      genres.forEach((genre) => {
+        ids.forEach((id) => {
+          if (genre.id == id) {
+            genreTags.push(genre);
+            console.log(genre);
+          }
+        });
+      });
 
-  const { id } = useParams<Params>();
+      return genreTags;
+    }
+  }
 
   useEffect(() => {
     api
@@ -81,13 +99,14 @@ const Movie: React.FC = (props) => {
               description={movie.overview}
               date={movie.release_date}
               situation={movie.status}
-              // language={movie.spoken_languages}
+              language={movie.spoken_languages}
               duration={formatMinutesToHours(movie.runtime)}
               budget={formatPrice(movie.budget)}
               income={formatPrice(movie.revenue)}
               profit={formatPrice(movie.revenue - movie.budget)}
               rate={formatRate(movie.popularity)}
               image={movie.poster_path}
+              genres={getGenres(movie.genres_ids)}
             />
           </>
         )}

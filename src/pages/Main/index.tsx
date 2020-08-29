@@ -20,15 +20,37 @@ interface IMovieInterface {
   genres_ids: number[];
 }
 
+interface IGenreInterface {
+  id: number;
+  name: string;
+}
+
 const Main: React.FC = () => {
   const [movies, setMovies] = useState<IMovieInterface[]>([]);
+  const [genres, setGenres] = useState<IGenreInterface[]>([]);
+  const [genreTags, setGenreTags] = useState<IGenreInterface[]>([]);
   const [search, setSearch] = useState("");
-  const history = useHistory();
+  // const history = useHistory();
 
   function updateSearch(event: {
     target: { value: React.SetStateAction<string> };
   }) {
     setSearch(event.target.value);
+  }
+
+  function getGenres(ids: number[]) {
+    if (ids != undefined) {
+      genres.forEach((genre) => {
+        ids.forEach((id) => {
+          if (genre.id == id) {
+            genreTags.push(genre);
+            console.log(genre);
+          }
+        });
+      });
+
+      return genreTags;
+    }
   }
 
   useEffect(() => {
@@ -43,6 +65,19 @@ const Main: React.FC = () => {
       .then((response) => {
         console.log(response.data.results);
         setMovies(response.data.results);
+      })
+      .catch((err) => console.log(err));
+
+    api
+      .get("genre/movie/list", {
+        params: {
+          api_key: "cb3cf1f094b688b01c940f191ca482aa",
+          language: "pt-BR",
+        },
+      })
+      .then((response) => {
+        console.log(response.data.genres);
+        setGenres(response.data.genres);
       })
       .catch((err) => console.log(err));
   }, [search]);
@@ -71,7 +106,7 @@ const Main: React.FC = () => {
                 date={movie.release_date}
                 rate={formatRate(movie.popularity)}
                 image={movie.poster_path}
-                genres={movie.genres_ids}
+                genres={getGenres(movie.genres_ids)}
               />
             </Link>
           ))
