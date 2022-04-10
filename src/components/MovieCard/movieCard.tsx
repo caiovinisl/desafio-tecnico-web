@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Badge } from "./styles";
+import { Card, Badge, EmptyImg } from "./styles";
 import api from "../../services/api";
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
   description: string;
   date: string;
   rate: string;
-  image: string;
+  image: string | null;
   genres: number[];
   // onClick(): void;
 }
@@ -39,10 +39,15 @@ const MovieCard: React.FC<IProps> = (props) => {
   return (
     <Card>
       <div className="image">
-        <img
+        {props.image == null ? (
+          <EmptyImg />
+        ) : (
+
+          <img
           src={`https://image.tmdb.org/t/p/w500${props.image}`}
           alt="Cartaz do filme"
-        />
+          />
+        )} 
       </div>
       <div className="container">
         <div className="header">

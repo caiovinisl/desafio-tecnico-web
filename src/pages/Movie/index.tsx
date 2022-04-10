@@ -34,7 +34,7 @@ const Movie: React.FC = (props) => {
 
   // const [id, setId] = useState(props.match.params.id);
 
-  const { id } = useParams<{ id: number }>();
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     api

@@ -5,7 +5,7 @@ export const Card = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 800px;
   height: 500px;
   background-color: ${colors.lightGrey};
 
